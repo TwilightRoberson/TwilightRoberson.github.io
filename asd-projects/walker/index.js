@@ -7,6 +7,23 @@ function runProgram(){
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+const KEY = {
+  ENTER: 13,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+};
+
+var walker = {
+  positionX: 0,
+  positionY: 0,
+  speedX: 0,
+  speedY: 0,
+
+}
+
+
   // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
@@ -23,7 +40,7 @@ function runProgram(){
 
   Note: You can have multiple event listeners for different types of events.
   */
-  $(document).on('eventType', handleEvent);                          
+  $(document).on("keydown", handleKeyDown);                          
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -35,7 +52,8 @@ function runProgram(){
   */
   function newFrame() {
     
-
+repositionGameItem();
+redrawGameItem();
   }
   
   /* 
@@ -44,7 +62,21 @@ function runProgram(){
   
   Note: You can have multiple event handlers for different types of events.
   */
-  function handleEvent(event) {
+  function handleKeyDown(event) {
+console.log(event.which);
+
+    if (event.which === KEY.LEFT) {
+  walker.speedX = -5;
+}
+if (event.which === KEY.RIGHT){
+  walker.speedX = 5;
+}
+if (event.which === KEY.UP){
+  walker.speedY = -5;
+}
+if (event.which === KEY.DOWN){
+  walker.speedY = 5;
+}
 
   }
 
@@ -60,5 +92,14 @@ function runProgram(){
     // turn off event handlers
     $(document).off();
   }
-  
+
+  function repositionGameItem(){
+    walker.positionX += walker.speedX;
+    walker.positionY += walker.speedY;
+  }
+
+  function redrawGameItem(){
+   $("#walker").css("left", walker.positionX);
+$("#walker").css("top", walker.positionY);
+}
 }
